@@ -1,0 +1,62 @@
+from django.db import models
+from django.db.models.fields.files import FieldFile
+
+
+
+class Contrato(models.Model):
+    noContrato = models.CharField(max_length=10, null=True, blank=True)
+    tipoContrato = models.CharField(max_length=30, null=True, blank=True)
+    impMensualBruto = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True)
+    sueldoAnterior = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True)
+    fechaOficio = models.CharField(max_length=20, null=True, blank=True)
+    NoOficio = models.CharField(max_length=50, null=True, blank=True)
+    nombreSecretario = models.CharField(max_length=200, null=True, blank=True)
+    puestoSecretario = models.CharField(max_length=200, null=True, blank=True)
+    nombreSecretaria = models.CharField(max_length=200, null=True, blank=True)
+    nombreSolicitante = models.CharField(max_length=200, null=True, blank=True)
+    puestoSolicitante = models.CharField(max_length=300, null=True, blank=True)
+    nombreTestigo = models.CharField(max_length=100, null=True, blank=True)
+    puestoTestigo = models.CharField(max_length=300, null=True, blank=True)
+    nombreVobo = models.CharField(max_length=100, null=True, blank=True)
+    puestoVobo = models.CharField(max_length=300, null=True, blank=True)
+    domicilioSecretaria = models.CharField(max_length=150, null=True, blank=True)
+    nombrePdS = models.CharField(max_length=100, null=True, blank=True)
+    edadPdS = models.CharField(max_length=10, null=True, blank=True)
+    sexoPdS = models.CharField(max_length=20, null=True, blank=True)
+    estadoCivilPdS = models.CharField(max_length=15, null=True, blank=True)
+    curpdS = models.CharField(max_length=20, null=True, blank=True)
+    emailPdS = models.CharField(max_length=50, null=True, blank=True)
+    inePdS = models.CharField(max_length=20, null=True, blank=True)
+    domicilioPdS = models.CharField(max_length=150, null=True, blank=True)
+    cpPdS = models.CharField(max_length=20, null=True, blank=True)
+    rfcPdS = models.CharField(max_length=15, null=True, blank=True)
+    funcionesProf = models.CharField(max_length=1000, null=True, blank=True)
+    tituloProf = models.CharField(max_length=150, null=True, blank=True)
+    institucionExpTituloProf = models.CharField(
+        max_length=300, null=True, blank=True)
+    cedulaProf = models.CharField(max_length=50, null=True, blank=True)
+    statusFirma = models.BooleanField(default=False)
+    statusCaptura = models.BooleanField(default=False)
+    fechaCreacion = models.CharField(max_length=20, null=True, blank=True)
+    operativoProf = models.CharField(max_length=250, null=True, blank=True)
+    pdf1 = models.FileField(upload_to='documentacionProf', null=True, blank=True)
+    pdf2 = models.FileField(upload_to='documentacionProf', null=True, blank=True)
+    pdf3 = models.FileField(upload_to='documentacionProf', null=True, blank=True)
+    pdf4 = models.FileField(upload_to='documentacionProf', null=True, blank=True)
+    pdf5 = models.FileField(upload_to='documentacionProf', null=True, blank=True)
+    pdf6 = models.FileField(upload_to='documentacionProf', null=True, blank=True)
+    pdf7 = models.FileField(upload_to='documentacionProf', null=True, blank=True)
+    pdf8 = models.FileField(upload_to='documentacionProf', null=True, blank=True)
+    pdf9 = models.FileField(upload_to='documentacionProf', null=True, blank=True)
+    dependencia_id = models.CharField(max_length=200, null=True, blank=True)
+    user_id = models.CharField(max_length=50, null=True, blank=True)
+    user_nombre = models.CharField(max_length=100, null=True, blank=True)
+    montoLetra = models.CharField(max_length=200, null=True, blank=True)
+    montoLetraAnterior = models.CharField(max_length=200, null=True, blank=True)
+    fechaInicioContrato = models.CharField(max_length=20, null=True, blank=True)
+    fechaFinContrato = models.CharField(max_length=20, null=True, blank=True)
+    telefonoPdS = models.CharField(max_length=15, null=True, blank=True)
+    def __str__(self):
+        return self.NoOficio

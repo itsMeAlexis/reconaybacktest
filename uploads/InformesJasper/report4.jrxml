@@ -1,0 +1,664 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report4" language="groovy" pageWidth="595" pageHeight="842" columnWidth="481" leftMargin="57" rightMargin="57" topMargin="72" bottomMargin="18" uuid="d9e8b55c-1be1-428e-9759-3a14ee39187a">
+	<property name="ireport.zoom" value="2.7272727272727617"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="4512"/>
+	<parameter name="VAR_ID" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT *
+FROM contratos_contrato
+where id = cast($P{VAR_ID} as bigint)]]>
+	</queryString>
+	<field name="id" class="java.lang.Long"/>
+	<field name="noContrato" class="java.lang.String"/>
+	<field name="impMensualBruto" class="java.math.BigDecimal"/>
+	<field name="fechaOficio" class="java.lang.String"/>
+	<field name="NoOficio" class="java.lang.String"/>
+	<field name="nombreSecretario" class="java.lang.String"/>
+	<field name="puestoSecretario" class="java.lang.String"/>
+	<field name="nombreSecretaria" class="java.lang.String"/>
+	<field name="nombreSolicitante" class="java.lang.String"/>
+	<field name="puestoSolicitante" class="java.lang.String"/>
+	<field name="nombreTestigo" class="java.lang.String"/>
+	<field name="puestoTestigo" class="java.lang.String"/>
+	<field name="nombrePdS" class="java.lang.String"/>
+	<field name="edadPdS" class="java.lang.String"/>
+	<field name="sexoPdS" class="java.lang.String"/>
+	<field name="estadoCivilPdS" class="java.lang.String"/>
+	<field name="curpdS" class="java.lang.String"/>
+	<field name="emailPdS" class="java.lang.String"/>
+	<field name="inePdS" class="java.lang.String"/>
+	<field name="domicilioPdS" class="java.lang.String"/>
+	<field name="rfcPdS" class="java.lang.String"/>
+	<field name="funcionesProf" class="java.lang.String"/>
+	<field name="tituloProf" class="java.lang.String"/>
+	<field name="institucionExpTituloProf" class="java.lang.String"/>
+	<field name="cedulaProf" class="java.lang.String"/>
+	<field name="statusFirma" class="java.lang.Boolean"/>
+	<field name="fechaCreacion" class="java.lang.String"/>
+	<field name="operativoProf" class="java.lang.String"/>
+	<field name="pdf1" class="java.lang.String"/>
+	<field name="pdf2" class="java.lang.String"/>
+	<field name="pdf3" class="java.lang.String"/>
+	<field name="pdf4" class="java.lang.String"/>
+	<field name="pdf5" class="java.lang.String"/>
+	<field name="pdf6" class="java.lang.String"/>
+	<field name="pdf7" class="java.lang.String"/>
+	<field name="pdf8" class="java.lang.String"/>
+	<field name="statusCaptura" class="java.lang.Boolean"/>
+	<field name="dependencia_id" class="java.lang.String"/>
+	<field name="user_id" class="java.lang.String"/>
+	<field name="user_nombre" class="java.lang.String"/>
+	<field name="montoLetra" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="37">
+			<textField>
+				<reportElement uuid="30b8bddb-17ed-4aa9-b3ae-0e5e382dff70" x="330" y="0" width="107" height="16"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="31e1ebdb-4f9a-4ef8-832d-8615cb6ffc51" x="437" y="0" width="40" height="16"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="666" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="41db3a1c-d919-4bad-a334-e79521df324b" x="293" y="11" width="86" height="20"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONTRATO No.]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="fed2fa27-6ca1-4233-9a9a-9ca6e97a1db2" x="377" y="22" width="100" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="41db3a1c-d919-4bad-a334-e79521df324b" x="228" y="37" width="149" height="20"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IMPORTE MENSUAL BRUTO: ]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="fed2fa27-6ca1-4233-9a9a-9ca6e97a1db2" x="377" y="49" width="100" height="1"/>
+			</line>
+			<textField pattern="¤#,##0.00">
+				<reportElement uuid="0313c26a-9b87-4b31-9d60-372bbb803ba7" x="379" y="37" width="100" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{impMensualBruto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="af8c6f6b-80ba-43f7-b8d2-370e43b03b64" x="0" y="64" width="481" height="118"/>
+				<textElement textAlignment="Justified" markup="styled">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[<style isBold="true" pdfFontName="Helvetica-Bold">CONTRATO DE PRESTACIÓN DE SERVICIOS PROFESIONALES SUJETO AL PAGO DE HONORARIOS BAJO EL RÉGIMEN FISCAL DE INGRESOS ASIMILADOS A SALARIOS, POR TIEMPO DETERMINADO</style>, QUE CELEBRAN POR UNA PARTE, EL PODER EJECUTIVO DEL ESTADO DE NAYARIT A TRAVÉS DE LA SECRETARÍA DE ADMINISTRACIÓN Y FINANZAS, REPRESENTADA EN ESTE ACTO POR EL <style isBold="true" pdfFontName="Helvetica-Bold">DIRECTOR GENERAL DE ADMINISTRACIÓN, L.M.D.I JUAN ALBERTO PINEDA CISNEROS</style>, A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ C. ______________________________________________________ EN LO SUCESIVO <style isBold="true" pdfFontName="Helvetica-Bold"> “EL(A) PRESTADOR(A) DE SERVICIOS”</style>, A QUIENES AL ACTUAR EN CONJUNTO SE LES DENOMINARÁ <style isBold="true" pdfFontName="Helvetica-Bold">“LAS PARTES”</style> AL TENOR DE LOS ANTECEDENTES, DECLARACIONES Y CLÁUSULAS SIGUIENTES:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="229" width="481" height="136"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[Que en fecha _______________________, mediante <style isBold="true" pdfFontName="Helvetica-Bold">Oficio No.</style> _______________________________, firmado por el(a) ____________________________________________________, en su carácter de _______________________________________________________________, solicitó al SECRETARIO DE ADMINISTRACION Y FINANZAS DEL PODER EJECUTIVO DEL ESTADO DE NAYARIT, <style isBold="true" pdfFontName="Helvetica-Bold">MTRO. EN FISCAL JULIO CESAR LÓPEZ RUELAS</style>, que con cargo al Presupuesto del(a) _________________________________________________________________, celebrara Contrato Civil de Prestación de Servicios Profesionales sujeto al pago de honorarios bajo el régimen fiscal de Ingresos Asimilados a Salarios, por tiempo determinado, con el(a) C. __________________________________________________________, para que a partir del día 01 de julio de 2023 preste los servicios que se describen en la Cláusula PRIMERA de este instrumento, el cual se encuentra debidamente autorizado por el Titular del Poder Ejecutivo, en términos del documento que se adjunta.
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="66fbd925-8584-4f9b-9bdc-780df4f92423" x="0" y="192" width="481" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ANTECEDENTES]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="28e87ee9-6105-4469-b90c-4ba3b3a85676" x="70" y="229" width="123" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{fechaOficio}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2ed46e5f-48a9-4c3b-9a6f-2147cea94657" x="306" y="229" width="168" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{NoOficio}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a3074cc5-b63e-43c9-a006-0b8fb88e7cb4" x="1" y="254" width="355" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{puestoSecretario}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="66fbd925-8584-4f9b-9bdc-780df4f92423" x="0" y="373" width="481" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DECLARACIONES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="66fbd925-8584-4f9b-9bdc-780df4f92423" x="0" y="409" width="481" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[1.- DECLARA “LA DEPENDENCIA”, A TRAVÉS DE SU REPRESENTANTE, QUE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="440" width="481" height="101"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[1.1- La Secretaría de Administración y Finanzas del Poder Ejecutivo del Estado de Nayarit, forma parte de la Administración Pública Centralizada del Gobierno del Estado de Nayarit, de conformidad con lo establecido en el artículo 72 de la Constitución Política del Estado Libre y Soberano de Nayarit, y los artículos 1 y 31 fracción II de la Ley Orgánica del Poder Ejecutivo del Estado de Nayarit; y tiene entre sus atribuciones el coordinar la planeación y aplicación de la política administrativa, financiera, crediticia, fiscal, hacendaria y del gasto público de la Administración Pública Estatal, además de normar y regular la prestación de servicios administrativos que requieran las Dependencias; lo anterior, con fundamento en lo dispuesto en el artículo 33 de la Ley Orgánica del Poder Ejecutivo del Estado de Nayarit]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="557" width="481" height="79"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[1.2.- Su representante, el Director General de Administración de la Secretaría de Administración y Finanzas del Poder Ejecutivo del Estado de Nayarit, participa en la celebración del presente instrumento con fundamento en los artículos 19 y 26 de la Ley Orgánica del Poder Ejecutivo del Estado de Nayarit, y los artículos 9, fracción VII, y 67 fracción XIV, del Reglamento Interior de la Secretaría de Administración y Finanzas, y demás normativa aplicable; quien acredita su personalidad con el nombramiento expedido a su favor por el Titular de la Secretaría de Administración y Finanzas del Poder Ejecutivo del Estado de Nayarit, Mtro. en Fiscal Julio César López Ruelas, de fecha 16 de febrero de 2023.]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="3fa10091-c022-46e7-8462-6bbcc0642a5d" x="2" y="291" width="363" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{nombreSecretaria}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e9eb968d-b5b7-442a-b044-ded0c7839ed0" x="2" y="329" width="328" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{nombrePdS}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="afa83f3c-0704-49e4-9485-d9f55baa9015" x="90" y="241" width="290" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{nombreSecretario}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="49638caf-9fa1-45e6-a609-691f753a7241" x="1" y="132" width="292" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{nombrePdS}.toUpperCase()]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="713">
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="477" width="481" height="44"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[2.4.- Está inscrita(o) en el Registro Federal de Contribuyentes, bajo el número ___________________, y está al corriente del cumplimiento de sus obligaciones fiscales, tal y como lo acredita con constancia de situación fiscal actualizada. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="398" width="481" height="70"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[2.3.- Es una persona física de nacionalidad mexicana, de ________ años, sexo _____________, estado civil_________________, C.U.R.P. _________________________, correo electrónico ________________________________; credencial para votar vigente, con clave ____________________ y que su domicilio particular para los efectos legales de este contrato es el ubicado en ____________________________________________________________________.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="80" width="481" height="104"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[1.4.- De acuerdo a las necesidades propias del(a) _______________________________________________________, se requiere temporalmente la contratación de los servicios profesionales de “EL(A) PRESTADOR(A) DE SERVICIOS”, sujetos al pago de honorarios bajo el régimen fiscal de Ingresos Asimilados a Salarios, para llevar a cabo las acciones materia de este contrato, consistentes en:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="527" width="481" height="52"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[2.5.- Ha sido su voluntad ofrecer a <style isBold="true" pdfFontName="Helvetica-Bold">“LA DEPENDENCIA”</style> los servicios objeto del presente contrato, bajo el régimen fiscal de honorarios asimilados a salarios y por tiempo determinado, empleando todos sus conocimientos, capacidades técnicas y tiempo que sea necesario para el cabal cumplimiento del presente contrato. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="30" width="481" height="44"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[1.3.- Su representada está inscrita en el Registro Federal de Contribuyentes con la clave SAD091223KK7, con domicilio fiscal sito en Avenida México sin número, Centro, Tepic Nayarit, C.P. 63000, mismo que señala para todos los efectos que se derivan del presente contrato.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="200" width="481" height="44"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[1.5.- Cuenta con la disponibilidad presupuestal para el pago de los servicios requeridos, motivo del presente contrato, afectando la partida presupuestal número 12101 del Presupuesto de Egresos del Estado Libre y Soberano de Nayarit para el Ejercicio Fiscal 2023.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="66fbd925-8584-4f9b-9bdc-780df4f92423" x="0" y="255" width="481" height="19"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[2.- DECLARA “EL(A) PRESTADOR(A) DE SERVICIOS”, QUE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="279" width="481" height="44"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[2.1.- Tiene la capacidad jurídica para contratar y obligarse en los términos del presente instrumento civil, y que cuenta con los conocimientos profesionales y la experiencia necesaria para prestar los servicios profesionales que requiere  <style isBold="true" pdfFontName="Helvetica-Bold">“LA DEPENDENCIA”</style>.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="585" width="481" height="52"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[2.6.- Es una persona física ajena a <style isBold="true" pdfFontName="Helvetica-Bold">“LA DEPENDENCIA”</style> por lo que puede denominársele el(la) <style isBold="true" pdfFontName="Helvetica-Bold">“PRESTADOR(A) DE SERVICIOS”</style>, que presta sus servicios de manera independiente a toda persona física o moral que le solicite la prestación de sus servicios y que su actividad profesional no la presta preponderantemente a <style isBold="true" pdfFontName="Helvetica-Bold">“LA DEPENDENCIA”</style>. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="644" width="481" height="44"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[2.7.- La prestación de los servicios a que se refiere este contrato es de naturaleza civil, sujeta al pago de honorarios bajo el régimen fiscal de Ingresos Asimilados a Salarios, por tiempo determinado, que se encuentra regulada por el Título IV, Capítulo II, de la Ley del Impuesto sobre la Renta vigente.]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="f3007112-2359-4b4f-a14e-2b2b6566303d" x="273" y="398" width="39" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{edadPdS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="573b21b0-8782-46b9-a70c-f4889c47b25a" x="378" y="398" width="65" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{sexoPdS}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8a020085-f296-41ec-9cdc-b9db99ba694f" x="20" y="411" width="102" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{estadoCivilPdS}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="66a9cae4-e107-4fa1-85fb-81f34ef6a6d0" x="1" y="423" width="173" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{emailPdS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ab5073af-b02a-497c-b8db-320556de54e8" x="209" y="411" width="135" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{curpdS}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2d0909a7-8c8a-4765-ab3f-6c06e2cc56b2" x="365" y="477" width="109" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{inePdS}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7848bc38-c8a5-4156-865d-0a9785273ab1" x="1" y="448" width="398" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{domicilioPdS}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d6e5bbef-2cff-40b6-b0c8-eeab593f7d48" x="365" y="423" width="112" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{rfcPdS}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3fa10091-c022-46e7-8462-6bbcc0642a5d" x="3" y="93" width="302" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{nombreSecretaria}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="81698799-4cc2-46ef-8fcf-9abaa3a0adbd" x="1" y="146" width="479" height="50"/>
+				<textElement textAlignment="Justified">
+					<font size="9" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{funcionesProf}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="337" width="481" height="44"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[2.2.- Ostenta título de ________________________________________________, expedido por ___________________________________________________. Con número de Cédula Profesional ___________________, expedida por la Dirección General de Profesiones de la Secretaría de Educación Pública.]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="12ba9603-5a83-48b0-b05e-45135a3c552e" x="131" y="337" width="268" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{tituloProf}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6c33430e-8509-418f-a9ac-d0d59bdbba3c" x="2" y="350" width="288" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{institucionExpTituloProf}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="85ee24f8-4bfd-4b11-9778-8d527f41b5e8" x="2" y="362" width="100" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{cedulaProf}.toUpperCase()]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="690">
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="513" width="481" height="93"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[<style isBold="true" pdfFontName="Helvetica-Bold">“EL(A) PRESTADOR(A) DE SERVICIOS”</style> se obliga a prestar los servicios señalados en la Cláusula inmediata anterior, con toda diligencia, obligándose a aportar toda su experiencia y capacidad, dedicando todo el tiempo que considere necesario para dar cabal cumplimiento al presente contrato, ello sin estar sujeta a un horario, dada la especial naturaleza del presente contrato, pudiendo<style isBold="true" pdfFontName="Helvetica-Bold"> “EL(A) PRESTADOR(A) DE SERVICIOS”</style> realizar sus tareas en los tiempos y formas que estime pertinentes. Estando<style isBold="true" pdfFontName="Helvetica-Bold"> “EL(A) PRESTADOR(A) DE SERVICIOS”</style>, no obstante la vigencia del presente contrato, en plena libertad de ofertar sus servicios profesionales a otros entes públicos o privados. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="249" width="481" height="42"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[3.3.- Haber negociado libremente de toda coacción los términos de este documento, que no existe ninguna limitante a su intención o voluntad y consecuentemente se encuentra con capacidad y aptitud legal para celebrar el presente contrato.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="621" width="481" height="41"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[Toda la información que obtenga <style isBold="true" pdfFontName="Helvetica-Bold">“EL(A) PRESTADOR(A) DE SERVICIOS”</style> de <style isBold="true" pdfFontName="Helvetica-Bold">“LA DEPENDENCIA”</style>, y viceversa, será manejada en forma confidencial y sólo podrá ser usada para cumplir con los fines del presente contrato.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="297" width="481" height="31"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[3.4.- Manifiestan <style isBold="true" pdfFontName="Helvetica-Bold">“LAS PARTES”</style> que están de acuerdo con las declaraciones anteriores y siendo su deseo obligarse recíprocamente, ambas partes acuerdan sujetarse al tenor de las siguientes:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="66fbd925-8584-4f9b-9bdc-780df4f92423" x="0" y="339" width="481" height="19"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CLÁUSULAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="393" width="481" height="31"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[<style isBold="true" pdfFontName="Helvetica-Bold">“EL(A) PRESTADOR(A) DE SERVICIOS”</style> por virtud del presente instrumento, se obliga civilmente a prestar a <style isBold="true" pdfFontName="Helvetica-Bold">“LA DEPENDENCIA”</style>, sus servicios, con el objeto de:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="190" width="481" height="52"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[3.2.- Expresan su voluntad para la celebración del presente contrato, reconociendo y aceptando que el mismo se rige por lo dispuesto en los artículos 1165, 1166, 1168, 1169, 1212, 1224, 1977, 1986 y demás relativos y aplicables del Código Civil para el Estado de Nayarit]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="66fbd925-8584-4f9b-9bdc-780df4f92423" x="0" y="165" width="481" height="19"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[3.- AMBAS PARTES DECLARAN, QUE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="370" width="481" height="20"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[<style isBold="true" pdfFontName="Helvetica-Bold">PRIMERA</style>.- OBJETO DEL CONTRATO.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="481" width="481" height="20"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[<style isBold="true" pdfFontName="Helvetica-Bold">SEGUNDA</style>.- CONDICIONES GENERALES.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="36" width="481" height="54"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[2.8.- Se obliga a someterse a los términos del presente contrato de prestación de servicios profesionales de naturaleza civil, en virtud de que este instrumento no se considera en ningún momento contrato laboral. Por ello <style isBold="true" pdfFontName="Helvetica-Bold">“LA DEPENDENCIA”</style>, no será patrón directo ni indirecto, y no contrae obligación, ni responsabilidad alguna al respecto. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="104" width="481" height="52"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[2.9.- Manifiesta su conformidad para que <style isBold="true" pdfFontName="Helvetica-Bold">“LA DEPENDENCIA”</style> realice los descuentos a los honorarios que por el presente contrato se generen y se realicen los pagos correspondientes ante las autoridades hacendarias, conforme a lo dispuesto en el artículo 94 fracción IV de la Ley del Impuesto sobre la Renta, para los efectos fiscales a que haya lugar.]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="81698799-4cc2-46ef-8fcf-9abaa3a0adbd" x="1" y="424" width="479" height="50"/>
+				<textElement textAlignment="Justified">
+					<font size="9" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{funcionesProf}.toUpperCase()]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="688">
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="420" width="481" height="45"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[<style isBold="true" pdfFontName="Helvetica-Bold">“LA DEPENDENCIA”</style> a través de los representantes que para tal efecto designe, tendrá en todo tiempo el derecho de vigilar el estricto cumplimiento de este contrato civil, por lo que podrá revisar e inspeccionar las actividades desempeñadas por <style isBold="true" pdfFontName="Helvetica-Bold">“LA PRESTADORA DE SERVICIOS”</style>.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="557" width="481" height="41"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[<style isBold="true" pdfFontName="Helvetica-Bold">“EL(A) PRESTADOR(A) DE SERVICIOS”</style> mantendrá informada verbalmente o por escrito en el caso de así habérselo solicitado a la requirente de servicio, por conducto del titular del área solicitante, del estado que guardan las actividades materia del presente contrato.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="182" width="481" height="48"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[Los pagos se harán <style isBold="true" pdfFontName="Helvetica-Bold">“EL(A) PRESTADOR(A) DE SERVICIOS”</style> mediante dispersión electrónica en una cuenta bancaria personal, tramitada para tal efecto por la Dirección de Pago Electrónico de Servicios Personales de la Dirección General de Tesorería de la Secretaría de Administración y Finanzas. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="639" width="481" height="41"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[<style isBold="true" pdfFontName="Helvetica-Bold">“EL(A) PRESTADOR(A) DE SERVICIOS”</style> no podrá, en ningún momento y por ninguna razón, ceder o subrogar los derechos y obligaciones derivados del presente instrumento a terceras personas físicas y/o morales. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="493" width="481" height="30"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[<style isBold="true" pdfFontName="Helvetica-Bold">“LAS PARTES”</style> quedan liberadas de otorgarse prestaciones propias de una relación de trabajo, por estar frente a un contrato de prestación de servicios profesionales de naturaleza civil.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="328" width="481" height="64"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[El presente contrato civil tendrá una vigencia improrrogable del día 01 de julio y hasta el 31 de diciembre de 2023. Concluida la vigencia no podrá haber prórroga automática por el simple transcurso del tiempo y terminará sin necesidad de darse aviso entre <style isBold="true" pdfFontName="Helvetica-Bold">“LAS PARTES”</style>. Para el caso de que <style isBold="true" pdfFontName="Helvetica-Bold">“LA DEPENDENCIA”</style> tuviera necesidad de contar nuevamente con los servicios de <style isBold="true" pdfFontName="Helvetica-Bold">“EL(A) PRESTADOR(A) DE SERVICIOS”</style>, se requerirá la celebración de un nuevo contrato. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="240" width="481" height="52"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[Queda bajo la responsabilidad de la Unidad Administrativa solicitante informar a la Secretaría de Administración y Finanzas de cualquier movimiento que se realice con motivo del presente contrato, así como del cumplimiento o incumplimiento por parte de <style isBold="true" pdfFontName="Helvetica-Bold">“EL(A) PRESTADOR(A) DE SERVICIOS”</style>. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="303" width="481" height="20"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[<style isBold="true" pdfFontName="Helvetica-Bold">CUARTA</style>.- VIGENCIA DEL CONTRATO..]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="396" width="481" height="20"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[<style isBold="true" pdfFontName="Helvetica-Bold">QUINTA</style>.- VIGILANCIA.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="469" width="481" height="20"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[<style isBold="true" pdfFontName="Helvetica-Bold">SEXTA</style>.- NATURALEZA DE LA RELACIÓN. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="527" width="481" height="20"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[<style isBold="true" pdfFontName="Helvetica-Bold">SEPTIMA</style>.- INFORMES DE LOS SERVICIOS. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="608" width="481" height="20"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[<style isBold="true" pdfFontName="Helvetica-Bold">OCTAVA</style>.- IMPEDIMENTO.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="1" y="77" width="481" height="96"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[<style isBold="true" pdfFontName="Helvetica-Bold">“LA DEPENDENCIA”</style> se obliga a cubrir por concepto de honorarios a <style isBold="true" pdfFontName="Helvetica-Bold">“EL(A) PRESTADOR(A) DE SERVICIOS”</style> por la prestación de servicios sujetos al pago de honorarios bajo el régimen fiscal de Ingresos Asimilados a Salarios, a que se refiere este contrato, la cantidad de ________________cantidad con  letra(__________________________________________________________________________________) mensuales, distribuidos en percepciones quincenales, efectuando la retención del Impuesto Sobre la Renta correspondiente en términos de los artículos 94 fracción IV y 96 de la Ley del Impuesto Sobre la Renta y demás correlativos aplicables. ]]></text>
+			</staticText>
+			<textField pattern="¤#,##0.00">
+				<reportElement uuid="4c74364b-bec6-43e5-94a4-ebd974e25b01" x="312" y="102" width="80" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{impMensualBruto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="3" y="54" width="477" height="20"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[<style isBold="true" pdfFontName="Helvetica-Bold">TERCERA</style>.- IMPORTE DEL CONTRATO.]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="61c7036e-15b5-4458-b888-2f8a97f16e35" x="8" y="115" width="466" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{montoLetra}.toUpperCase()]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="681">
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="1" y="216" width="481" height="40"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[b)	Ser directamente responsable de los daños y perjuicios que cause a <style isBold="true" pdfFontName="Helvetica-Bold">“LA DEPENDENCIA”</style> y/o a terceros, por negligencia, impericia, omisión o dolo en la prestación de los servicios que se obliga a realizar. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="625" width="481" height="56"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[<style isBold="true" pdfFontName="Helvetica-Bold">“EL(A) PRESTADOR(A) DE SERVICIOS”</style>, no será responsable por cualquier evento de caso fortuito o de fuerza mayor que le impidiera parcial o totalmente la ejecución de las obligaciones a su cargo en el presente contrato, en el entendido de que el caso fortuito o fuerza mayor, según corresponda, estén debidamente acreditados.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="375" width="481" height="90"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[ Aunado a lo anterior, <style isBold="true" pdfFontName="Helvetica-Bold">“EL(A) PRESTADOR(A) DE SERVICIOS”</style> manifiesta estar enterado de que todos los archivos, documentación y/o información que genere al prestar sus servicios profesionales independientes a <style isBold="true" pdfFontName="Helvetica-Bold">“LA DEPENDENCIA”</style> será propiedad de la segunda, y por ningún motivo podrá disponer de ella para asuntos y/o situaciones distintas a la prestación de sus servicios, y en todo caso, una vez finalizada la contraprestación de los mismos, no podrá utilizar ni reproducir archivos, documentación y/o información alguna; así mismo, al tratarse de propiedad de <style isBold="true" pdfFontName="Helvetica-Bold">“LA DEPENDENCIA”, “EL(A) PRESTADOR(A) DE SERVICIOS”</style> no podrá eliminar física ni digitalmente tales archivos, documentación y/o información.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="566" width="481" height="31"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[<style isBold="true" pdfFontName="Helvetica-Bold">“LA DEPENDENCIA”</style> solo adquiere y reconoce las obligaciones derivadas de la legislación aplicable al presente contrato de naturaleza meramente civil.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="66fbd925-8584-4f9b-9bdc-780df4f92423" x="0" y="260" width="481" height="19"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DECIMA PRIMERA.- INFORMACIÓN GENERADA.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="1" y="605" width="481" height="16"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[<style isBold="true" pdfFontName="Helvetica-Bold">DECIMA TERCERA</style>.- CASO FORTUITO O FUERZA MAYOR.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="488" width="481" height="74"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[<style isBold="true" pdfFontName="Helvetica-Bold">“LA DEPENDENCIA”</style>, en cualquier momento, podrá dar por terminado anticipadamente el presente contrato sin responsabilidades para ésta y sin necesidad de que medie resolución judicial alguna, dando aviso por escrito a <style isBold="true" pdfFontName="Helvetica-Bold">“EL(A) PRESTADOR(A) DE SERVICIOS”</style> con al menos 15 (quince) días naturales de anticipación. Asimismo <style isBold="true" pdfFontName="Helvetica-Bold">“EL(A) PRESTADOR(A) DE SERVICIOS”</style> podrá darlo por concluido de manera anticipada, previo aviso por escrito a <style isBold="true" pdfFontName="Helvetica-Bold">“LA DEPENDENCIA”</style>, en un lapso no menor a 15 (quince) días hábiles.    ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="470" width="481" height="16"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[<style isBold="true" pdfFontName="Helvetica-Bold">DECIMA SEGUNDA</style>.- TERMINACIÓN ANTICIPADA.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="2" y="185" width="481" height="26"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[a)	No divulgar ni dar a conocer los datos y documentos que <style isBold="true" pdfFontName="Helvetica-Bold">“LA DEPENDENCIA”</style> le proporcione para las actividades que desarrolla, ni dar informes a personas distintas a las señaladas por ella.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="69" width="481" height="20"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[<style isBold="true" pdfFontName="Helvetica-Bold">NOVENA</style>.- MODIFICACIONES.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="1" y="90" width="481" height="63"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[Cualquier variación en lo pactado en este contrato de prestación de servicios profesionales, será acordada por <style isBold="true" pdfFontName="Helvetica-Bold">“LAS PARTES”</style> en forma previa y escrita, celebrando para ello el convenio modificatorio correspondiente, debiendo, para su validez, estar firmado por ambas partes, señalarse claramente que se trata de una modificación, y se determine su alcance. En el entendido de que cualquier convenio verbal es y será nulo.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="1" y="159" width="481" height="21"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[<style isBold="true" pdfFontName="Helvetica-Bold">DÉCIMA.- “EL(A) PRESTADOR(A) DE SERVICIOS”</style>, SE COMPROMETE A LO SIGUIENTE: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="1" y="285" width="481" height="90"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[ <style isBold="true" pdfFontName="Helvetica-Bold">“EL(A) PRESTADOR(A) DE SERVICIOS” </style> manifiesta que todos los bienes, técnicas, licencias, manuales de operación, guías, material bibliográfico, y demás materiales y equipos que utilice para la prestación del servicio objeto de éste contrato, distintos a aquellos que le sean proporcionados por  <style isBold="true" pdfFontName="Helvetica-Bold">“LA DEPENDENCIA”</style> y sean propiedad de  <style isBold="true" pdfFontName="Helvetica-Bold">“LA DEPENDENCIA”</style>, son de su propiedad, o no siéndolos, cuenta con los permisos, autorizaciones y licencias correspondientes para su uso y utilización, liberando a la  <style isBold="true" pdfFontName="Helvetica-Bold"> “LA DEPENDENCIA” </style> de cualquier responsabilidad derivada del uso y utilización de los mismos. ]]></text>
+			</staticText>
+		</band>
+		<band height="670">
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="205" width="480" height="86"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[<style isBold="true" pdfFontName="Helvetica-Bold">DECIMA SEXTA.- “LAS PARTES”</style> quedan obligadas a dar cumplimiento a las cláusulas del presente instrumento jurídico sujetándose a lo dispuesto por el Código Civil para el Estado de Nayarit, por tratarse de un contrato de prestación de servicios profesionales sujetos al pago de honorarios bajo el régimen fiscal de Ingresos Asimilados a Salarios, por consiguiente, quedan liberadas de otorgarse prestaciones propias de una relación de trabajo, por lo que <style isBold="true" pdfFontName="Helvetica-Bold">“EL(A) PRESTADOR(A) DE SERVICIOS”</style> releva a <style isBold="true" pdfFontName="Helvetica-Bold">“LA DEPENDENCIA”</style> de cualquier responsabilidad presente o futura por este concepto.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="291" width="480" height="91"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[<style isBold="true" pdfFontName="Helvetica-Bold">DÉCIMA SÉPTIMA</style>.- En razón del correcto y cabal cumplimiento del presente contrato por parte de <style isBold="true" pdfFontName="Helvetica-Bold">“EL(A) PRESTADOR(A) DE SERVICIOS”, “LA DEPENDENCIA”</style> tendrá total independencia para considerar entregarle un bono de gratificación, que podría otorgarse por un monto equivalente de hasta dos meses, respecto a lo señalado en la Cláusula TERCERA, indistintamente del período del término del contrato, siempre y cuando se cuente con la disponibilidad presupuestal en el ejercicio fiscal de que se trate, y a discrecionalidad de <style isBold="true" pdfFontName="Helvetica-Bold">“LA DEPENDENCIA”</style>, por tal motivo, no constituye una obligación para <style isBold="true" pdfFontName="Helvetica-Bold">“LA DEPENDENCIA”</style>.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="0" y="382" width="480" height="40"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[Leído que fue el presente contrato y enteradas las partes del contenido y alcance de todas y cada una de sus cláusulas, lo firman por duplicado, ante los testigos que al final suscriben, en la Ciudad de Tepic, Nayarit, el día 01 de julio de 2023.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="66fbd925-8584-4f9b-9bdc-780df4f92423" x="40" y="423" width="153" height="19"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[POR “LA DEPENDENCIA”]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="66fbd925-8584-4f9b-9bdc-780df4f92423" x="282" y="423" width="164" height="19"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[“EL (A) PRESTADOR(A) DEL SERVICIO”]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="66fbd925-8584-4f9b-9bdc-780df4f92423" x="250" y="466" width="224" height="59"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[  _______________________________________
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="66fbd925-8584-4f9b-9bdc-780df4f92423" x="40" y="548" width="153" height="19"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ÁREA SOLICITANTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="66fbd925-8584-4f9b-9bdc-780df4f92423" x="290" y="548" width="153" height="19"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TESTIGO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="66fbd925-8584-4f9b-9bdc-780df4f92423" x="8" y="589" width="220" height="59"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[_____________________________________
+
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="66fbd925-8584-4f9b-9bdc-780df4f92423" x="261" y="589" width="216" height="59"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[_____________________________________
+
+]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="21513eb1-caf8-4b43-9cdf-686a95913dd1" x="20" y="604" width="189" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreSolicitante}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0aac167f-10c2-4ef0-8c61-835a8e79cb45" x="20" y="627" width="189" height="40"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{puestoSolicitante}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b2b9a438-ef03-4cdc-994c-e0d56f7eda45" x="273" y="604" width="191" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreTestigo}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="27170245-73a3-4ee7-9e72-35f1e21f5643" x="273" y="626" width="191" height="40"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{puestoTestigo}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="916413c8-4430-4c15-93df-01ee0d63a180" x="261" y="491" width="208" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombrePdS}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="8" y="476" width="232" height="79"/>
+				<textElement textAlignment="Center" markup="styled"/>
+				<text><![CDATA[___________________________________
+<style isBold="true" pdfFontName="Helvetica-Bold">L.M.D.I JUAN ALBERTO PINEDA CISNEROS</style> Director General de Administración
+de la Secretaría de Administración y Finanzas
+del Poder Ejecutivo del Estado de Nayarit.
+
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="1" y="11" width="481" height="16"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[<style isBold="true" pdfFontName="Helvetica-Bold">DECIMA CUARTA</style>.- INTERPRETACIÓN Y JURISDICCIÓN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="1" y="32" width="481" height="41"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[Los títulos de las cláusulas que aparecen en el presente contrato, se han plasmado con el exclusivo propósito de facilitar su lectura, por tanto, no definen ni limitan el contenido de las mismas. Para efectos de interpretación de cada cláusula deberá atenderse exclusivamente a su contenido y de ninguna manera a su título.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="-1" y="78" width="481" height="55"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[Para la interpretación y cumplimiento del presente contrato, <style isBold="true" pdfFontName="Helvetica-Bold">“LAS PARTES”</style> se someten a la jurisdicción y competencia de los Juzgados Civiles de la ciudad de Tepic, Nayarit, así como a las disposiciones contenidas en el Código Civil para el Estado de Nayarit vigente, renunciando expresamente al fuero que pudiera corresponderles en razón de su domicilio actual o futuro.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="86807ca7-98c9-4625-b287-e8dd7723f860" x="1" y="142" width="481" height="54"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[<style isBold="true" pdfFontName="Helvetica-Bold">DÉCIMA QUINTA</style>.- Queda expresamente convenido que la falta de cumplimiento a cualquiera de las obligaciones que aquí se contraen y aquellas otras que dimanan del Código Civil para el Estado de Nayarit vigente, será motivo de rescisión del presente contrato y derivará además en el pago de los daños y perjuicios que el incumplimiento cause a la parte que cumple.  ]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

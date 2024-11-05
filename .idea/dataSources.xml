@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="Reconay" uuid="6f8c238c-ddd8-4bc0-b6a1-de7ff3d77d10">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://db-reconay.c4gx87jimh0x.us-east-1.rds.amazonaws.com:5432/reconay</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="ReconayProduction" uuid="216a9893-6942-48d0-8f7a-997bb72846c9">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://awseb-e-wcukpw8zsc-stack-awsebrdsdatabase-vzepbqh4ueur.cmis9w2eouiu.us-east-1.rds.amazonaws.com:5432/ebdb</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+  </component>
+</project>
