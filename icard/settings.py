@@ -101,7 +101,7 @@ WSGI_APPLICATION = 'icard.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'reconay',
+        'NAME': 'reconaylocal',
         'USER': 'postgres',
         'PASSWORD': '12345',
         'HOST': 'localhost',
