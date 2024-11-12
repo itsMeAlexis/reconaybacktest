@@ -152,7 +152,7 @@ def generate_PDF_Operativo(request, contratoOperativo_id):
 
         "<para>&nbsp;</para>",
         
-        "<para align='right'><b>IMPORTE MENSUAL BRUTO $:</b><b><u>&nbsp;&nbsp;&nbsp;&nbsp;" +   locale.format('%.2f', contratoOperativo.impMensualBruto, True) + "&nbsp;&nbsp;&nbsp;&nbsp;</u></b></para>",
+        "<para align='right'><b>IMPORTE MENSUAL BRUTO $:</b><b><u>&nbsp;&nbsp;&nbsp;&nbsp;" +   "{:,.2f}".format(contratoOperativo.impMensualBruto) + "&nbsp;&nbsp;&nbsp;&nbsp;</u></b></para>",
         
         "<para>&nbsp;</para>",
           
@@ -278,7 +278,7 @@ def generate_PDF_Operativo(request, contratoOperativo_id):
 
         "<para>&nbsp;</para>",
 
-        "<para align='justify'>“<b>LA DEPENDENCIA</b>” se obliga a cubrir por concepto de honorarios a “<b>EL(A) PRESTADOR(A) DE SERVICIOS</b>” por la prestación de Servicios sujetos al pago de honorarios bajo el régimen fiscal de Ingresos Asimilados a Salarios, a que se refiere este contrato, la cantidad de <u>&nbsp;&nbsp;&nbsp;&nbsp;" + locale.format('%.2f', contratoOperativo.impMensualBruto, True) + "&nbsp;&nbsp;&nbsp;&nbsp;</u> cantidad con letra <u>&nbsp;&nbsp;" + contratoOperativo.montoLetra.upper() + "&nbsp;&nbsp;</u>  mensuales, que podrá ser distribuida en percepciones quincenales, efectuando la retención del Impuesto Sobre la Renta correspondiente en términos de los artículos 94 fracción IV y 96 de la Ley del Impuesto Sobre la Renta y demás correlativos aplicables.</para> ",
+        "<para align='justify'>“<b>LA DEPENDENCIA</b>” se obliga a cubrir por concepto de honorarios a “<b>EL(A) PRESTADOR(A) DE SERVICIOS</b>” por la prestación de Servicios sujetos al pago de honorarios bajo el régimen fiscal de Ingresos Asimilados a Salarios, a que se refiere este contrato, la cantidad de <u>&nbsp;&nbsp;&nbsp;&nbsp;" + "{:,.2f}".format(contratoOperativo.impMensualBruto) + "&nbsp;&nbsp;&nbsp;&nbsp;</u> cantidad con letra <u>&nbsp;&nbsp;" + contratoOperativo.montoLetra.upper() + "&nbsp;&nbsp;</u>  mensuales, que podrá ser distribuida en percepciones quincenales, efectuando la retención del Impuesto Sobre la Renta correspondiente en términos de los artículos 94 fracción IV y 96 de la Ley del Impuesto Sobre la Renta y demás correlativos aplicables.</para> ",
 
         "<para>&nbsp;</para>",
        
