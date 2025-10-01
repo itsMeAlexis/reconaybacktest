@@ -832,8 +832,8 @@ def generate_PDF_OperativoFIN(request, contratoOperativo_id):
     content.append(form_table_fi_ft)
 
     # Sección de MONTO TOTAL DEL CONTRATO y Ajuste de sueldo
-    monto_total_contrato = f"${contratoOperativo.impMensualBruto:,.2f} ({contratoOperativo.montoLetra})" if contratoOperativo.impMensualBruto and contratoOperativo.montoLetra else "\u00A0"
-    monto_totalAnterior = f"${contratoOperativo.sueldoAnterior:,.2f} ({contratoOperativo.montoLetraAnterior})" if contratoOperativo.sueldoAnterior and contratoOperativo.montoLetraAnterior else "\u00A0"
+    monto_total_contrato = f"${contratoOperativo.impMensualBruto:,.2f} ({contratoOperativo.montoLetra.lower()})" if contratoOperativo.impMensualBruto and contratoOperativo.montoLetra else "\u00A0"
+    monto_totalAnterior = f"${contratoOperativo.sueldoAnterior:,.2f} ({contratoOperativo.montoLetraAnterior.lower()})" if contratoOperativo.sueldoAnterior and contratoOperativo.montoLetraAnterior else "\u00A0"
     form_data_monto_total = [
         [Paragraph("MONTO TOTAL DEL CONTRATO:", field_label_style), Paragraph(monto_total_contrato, field_value_style_center)],
         [Paragraph("AJUSTE DE SUELDO:", field_label_style), Paragraph(monto_totalAnterior, field_value_style_center)]

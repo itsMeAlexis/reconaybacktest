@@ -4,15 +4,15 @@ from reportlab.pdfgen import canvas
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, KeepTogether, Table, TableStyle, PageTemplate, Frame, PageBreak, KeepInFrame
+from reportlab.platypus import Image, SimpleDocTemplate, Paragraph, Spacer, KeepTogether, Table, TableStyle, PageTemplate, Frame, PageBreak, KeepInFrame
 from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_RIGHT, TA_JUSTIFY
 from reportlab.lib import colors
-from reportlab.lib.units import inch
+from reportlab.lib.units import inch, mm
 from .models import Contrato
 from contratos.models import Contrato
-from reportlab.lib.units import mm
 import locale
 import datetime
+import os
 
 class PageNumCanvas(canvas.Canvas):
     def __init__(self, *args, **kwargs):
@@ -589,307 +589,328 @@ def header_footer(canvas, doc):
 
 def generate_PDF_FIN(request, contrato_id):
     contrato = get_object_or_404(Contrato, id=contrato_id)
-
-    right_aligned_style = ParagraphStyle(
-        'Center',
-        fontSize=10,
-        leading=12,
-        alignment=TA_RIGHT,
-        fontName='Helvetica'
-    )
-
-      # Crear estilos personalizados
+    
+    buffer = BytesIO()
+    doc = SimpleDocTemplate(buffer, pagesize=letter, rightMargin=50, leftMargin=50, topMargin=50, bottomMargin=50)
+    
+    # Crear estilos personalizados
     styles = getSampleStyleSheet()
-
-    # Función para aplicar estilos a los párrafos
     
-    def apply_style(para, styles):
-        formatted_elements = []
-        for style_name in styles:
-            style = custom_styles.get(style_name, None)
-            if style:
-                if style_name == "space":
-                    # Si el estilo es "space", llamamos a la función y le pasamos el tamaño de espacio (en puntos)
-                    formatted_elements.append(style(12))  # Aquí 12 es el tamaño de espacio deseado
-                else:
-                    formatted_elements.append(Paragraph(para, style))
-        return formatted_elements
+    # Estilos
+    title_style = ParagraphStyle(
+        'Title',
+        fontSize=10,
+        leading=6,
+        alignment=TA_CENTER,
+        fontName='Helvetica-Bold',
+        spaceAfter=5
+    )
     
-    custom_styles = {
-        "bold": ParagraphStyle(name="Bold", fontName="Helvetica-Bold", fontSize=12),
-        "underline": ParagraphStyle(name="Underline", fontName="Helvetica", fontSize=12, textColor="blue", spaceAfter=10),
-        "normal": ParagraphStyle(name="Normal", fontName="Helvetica", fontSize=12),
-        "centered": ParagraphStyle(name="Centered", fontName="Helvetica", fontSize=12, alignment=1),
-        "justify": ParagraphStyle(name="Justify", fontName="Helvetica", fontSize=12, alignment=TA_JUSTIFY),
-        "right": ParagraphStyle(name="Right", fontName="Helvetica", fontSize=12, alignment=2),
-        "space": lambda size: Spacer(1, size),  # Agregar función para el estilo "space"
-
-    }
-
-    # Establecer la configuración regional en español
-    #locale.setlocale(locale.LC_TIME, "es_ES.UTF-8")
-
-    # Define la fecha
-    fecha_inicio_contrato = contrato.fechaInicioContrato
-    fecha_fin_contrato = contrato.fechaFinContrato
-
-    # Convierte la fecha en un objeto datetime
-    fecha_inicio_obj = datetime.datetime.strptime(fecha_inicio_contrato, "%Y-%m-%d")
-    fecha_fin_obj = datetime.datetime.strptime(fecha_fin_contrato, "%Y-%m-%d")
-
-    nombres_meses_espanol = [
-    "enero", "febrero", "marzo", "abril", "mayo", "junio",
-    "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
-    ]
-    # Obtén el nombre del mes
+    subtitle_style = ParagraphStyle(
+        'Subtitle',
+        fontSize=8,
+        leading=10,
+        alignment=TA_CENTER,
+        fontName='Helvetica-Bold',
+        spaceAfter=3
+    )
     
-    nombre_mes_inicio = nombres_meses_espanol[fecha_inicio_obj.month-1]
-    nombre_mes_fin = nombres_meses_espanol[fecha_fin_obj.month-1]
-                    
-             
-    # Formatea la fecha en el formato deseado
-    fecha_formateada_inicio = fecha_inicio_obj.strftime("%d de {} de %Y").format(nombre_mes_inicio)
-    fecha_formateada_fin = fecha_fin_obj.strftime("%d de {} de %Y").format(nombre_mes_fin)
-
-    no_contrato = contrato.noContrato if contrato.noContrato is not None else "&nbsp"    
-
-    
-
-    styles_to_apply = [
-    "bold",      # Negritas
-    "underline", # Subrayado
-    "normal",    # Párrafo normal
-    "space",     # Espacio (salto de línea)
-    "center",  # Centrado
-    "justify",   # Justificado
-    "right",     # Alineado a la derecha
-    ]   
-    
-     # Lista para almacenar los párrafos formateados
-    formatted_paragraphs = []
-   
-   
-
-    content = []
-
-    centered_style_2 = ParagraphStyle(
-        'Normal',
+    field_label_style = ParagraphStyle(
+        'FieldLabel',
         fontSize=9,
-        parent=styles['Normal'],
-        alignment=TA_CENTER,
+        leading=11,
+        alignment=TA_LEFT,
+        fontName='Helvetica-Bold',
+        leftIndent=0
     )
-
-    # Estilo personalizado con alineación centrada
-    centered_style = ParagraphStyle(
-        'Center',
-        parent=styles['Normal'],
-        alignment=TA_CENTER,
-    )
-
-    centered_style_2 = ParagraphStyle(
-        'Center',
+    field_label_style_center = ParagraphStyle(
+        'FieldLabel',
         fontSize=9,
-        parent=styles['Normal'],
+        leading=11,
         alignment=TA_CENTER,
+        fontName='Helvetica-Bold',
+        leftIndent=0
     )
-
-    # Estilo personalizado para los encabezados del documento
-    header_style = ParagraphStyle(
-        'Header',
-        fontSize=12,
-        leading=14,
-        alignment=TA_CENTER,
-        fontName='Helvetica-Bold'
-    )
-    left_aligned_style = ParagraphStyle(
-        'Center',
+    
+    field_value_style = ParagraphStyle(
+        'FieldValue',
         fontSize=9,
-        parent=styles['Normal'],
-        alignment=TA_CENTER,
+        leading=11,
+        alignment=TA_LEFT,
+        fontName='Helvetica',
+        leftIndent=0,
+        borderWidth=1,
+        borderColor=colors.black,
+        borderPadding=5
         
     )
-    left_aligned_style = ParagraphStyle('LeftAligned', parent=styles['Normal'], alignment=TA_LEFT)
 
+    field_value_style_center = ParagraphStyle(
+        'FieldValue',
+        fontSize=9,
+        leading=11,
+        alignment=TA_CENTER,
+        fontName='Helvetica',
+        leftIndent=0,
+        borderWidth=1,
+        borderColor=colors.black,
+        borderPadding=5
+        
+    )
     
+    # Construir la ruta absoluta de la imagen
+    imagen_path = os.path.join(os.path.dirname(__file__), 'finanzas.jpg')
     
+    # Crear contenido del documento
+    content = []
     
-    data = [
-            
-
-            [Paragraph("<b>FICHA TÉCNICA DE VALIDACIÓN</b>",centered_style)],
-
-            [Paragraph("CONTRATOS DE PRESTACIÓN DE SERVICIOS PROFESIONALES SUJETOS AL PAGO DE HONORARIOS",centered_style )],
-            
-            [Paragraph("BAJO EL RÉGIMEN FISCAL DE INGRESOS ASIMILADOS A SALARIOS",centered_style )],                      
-
-            [Paragraph("<b>DEPENDENCIA:</b>", left_aligned_style),            
-            Paragraph( f"&nbsp;&nbsp;{contrato.nombreSecretaria.upper()}&nbsp;&nbsp;" , left_aligned_style)],
-
-             [Paragraph("<b>NOMBRE PRESTADOR DE SERVICIO:</b>", left_aligned_style),           
-            Paragraph(f"&nbsp;&nbsp;{contrato.nombrePdS.upper()}&nbsp;&nbsp;", left_aligned_style),],         
-
-            [Paragraph("<b>TELÉFONO:</b>", left_aligned_style),            
-            Paragraph(f"&nbsp;&nbsp;{contrato.telefonoPdS.upper()}&nbsp;&nbsp;", left_aligned_style),
-            Paragraph("<b>NO DE CONTRATO:</b>", left_aligned_style),            
-            Paragraph(f"&nbsp;&nbsp;{contrato.noContrato}&nbsp;&nbsp;", left_aligned_style),],
-
-            [Paragraph("<b>SERVICIO REQUERIDO:</b>", left_aligned_style),           
-            Paragraph(f"&nbsp;&nbsp;{contrato.funcionesProf.upper()}&nbsp;&nbsp;", left_aligned_style),],   
-
-            [Paragraph("<b>ÁREA EN LA QUE SE REQUIEREN LOS SERVICIOS:</b>", left_aligned_style),           
-            Paragraph(f"&nbsp;&nbsp;{contrato.puestoSolicitante.upper()}&nbsp;&nbsp;", left_aligned_style)],         
-
-            [Paragraph("<b>DOMICILIO DE LA DEPENDENCIA:</b>", left_aligned_style),           
-            Paragraph(f"&nbsp;&nbsp;{contrato.domicilioSecretaria.upper()}&nbsp;&nbsp;", left_aligned_style)],
-
-            [Paragraph("<b>TITULAR DEL ÁREA:</b>", left_aligned_style),            
-            Paragraph(f"&nbsp;&nbsp;{contrato.nombreSolicitante.upper()}&nbsp;&nbsp;", left_aligned_style)],     
-
-            [Paragraph("<b>CARGO DEL TITULAR DE ÁREA:</b>", left_aligned_style),            
-            Paragraph(f"&nbsp;&nbsp;{contrato.puestoSolicitante.upper()}&nbsp;&nbsp;", left_aligned_style)],
-           
-            [Paragraph("<b>TIPO CONTRATO NUEVO/RENOVACIÓN:</b>", left_aligned_style),            
-            Paragraph(f"&nbsp;&nbsp;{contrato.tipoContrato.upper()}&nbsp;&nbsp;", left_aligned_style)],
-
-            [Paragraph("<b>FECHA INICIAL:</b>", left_aligned_style),            
-            Paragraph(f"&nbsp;&nbsp;{contrato.fechaInicioContrato}&nbsp;&nbsp;", left_aligned_style),
-            Paragraph("<b>FECHA DE TERMINACIÓN:</b>", left_aligned_style),            
-            Paragraph(f"&nbsp;&nbsp;{contrato.fechaFinContrato}&nbsp;&nbsp;", left_aligned_style)
-            ],           
-
-            [Paragraph("<b>PERCEPCIÓN MENSUAL NETA:</b>", left_aligned_style),            
-            Paragraph(f"&nbsp;&nbsp;{contrato.impMensualBruto}&nbsp;&nbsp;", left_aligned_style),
-            Paragraph("<b>PERCEPCIÓN MENSUAL NETA CON LETRA:</b>", left_aligned_style),            
-            Paragraph(f"{contrato.montoLetra}&nbsp;&nbsp;", left_aligned_style),
-            ],
-
-            [Paragraph("<b>AJUSTE DE SUELDO:</b>", left_aligned_style),            
-            Paragraph(f"&nbsp;&nbsp;{contrato.sueldoAnterior}&nbsp;&nbsp;", left_aligned_style),
-            Paragraph("<b>AJUSTE DE SUELDO CON LETRA:</b>", left_aligned_style),            
-            Paragraph(f"{contrato.montoLetraAnterior.upper()}&nbsp;&nbsp;", left_aligned_style),],            
-
-            [Paragraph("<b>ÁREA SOLICITANTE</b>", centered_style),
-             Paragraph("<br/><br/><br/>", centered_style),
-             Paragraph("<b>ÁREA QUE APRUEBA</b>", centered_style)        
-            ],
-            [Paragraph("<br/><br/><br/>", centered_style),
-            Paragraph(""),
-            Paragraph("<br/><br/><br/>", centered_style)],
-
-            [Paragraph(f"&nbsp;&nbsp;{contrato.nombreSolicitante.upper()}&nbsp;&nbsp;", centered_style),
-             Paragraph("<br/><br/><br/>", centered_style),
-            Paragraph(f"&nbsp;&nbsp;{contrato.nombreSecretario.upper()}&nbsp;&nbsp;", centered_style)],
-
-            [Paragraph("<b>" + f"&nbsp;&nbsp;{contrato.puestoSolicitante.upper()}&nbsp;&nbsp;" + " </b>", centered_style),
-            Paragraph("<br/><br/><br/>", centered_style),
-            Paragraph("<b>" + f"&nbsp;&nbsp;{contrato.puestoSecretario.upper()}&nbsp;&nbsp;" + " </b>", centered_style)
-            ],
-
-            [Paragraph("<br/>", centered_style)],
-
-            [Paragraph("<b>ÁREA Vo.Bo.</b>", centered_style)],
-
-            [Paragraph("<br/><br/><br/>", centered_style),
-            Paragraph(""),
-            Paragraph("<br/><br/><br/>", centered_style)],
-
-            [Paragraph(f"&nbsp;&nbsp;{contrato.nombreVobo.upper()}&nbsp;&nbsp;", centered_style)], 
-
-            [Paragraph("<b>" + f"&nbsp;&nbsp;{contrato.puestoVobo.upper()}&nbsp;&nbsp;" + " </b>", centered_style)],   
-            
-        ]
-      
-
-    table = Table(data, colWidths=[150,116,133,133], style=[
-        ('GRID', (0, 0), (-1, -1), 1, colors.black),  # Agregar bordes a todas las celdas
-        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),  # Alinear el contenido al centro de las celdas horizontalmente
-        ('VALIGN', (0, 0), (-1, -1), 'TOP'),  # Alinear el contenido al centro de las celdas verticalmente
-        ('FONTNAME', (0, 0), (-1, -1), 'Helvetica-Bold'),  # Especificar la fuente en negrita (Helvetica-Bold)
-        #('LINEBELOW', (0, 0), (0, 0), 1, colors.black),  # Subrayar solo la primera fila
-        ('LINEBELOW', (0, 0), (3, 1), 1, colors.white),  # Subrayar solo la primera celda de la segunda fila (parte inferior)
-        ('LINEBELOW', (0, 15), (0, 1), 1, colors.white),  # Subrayar solo la 
-        ('LINEBELOW', (0, 1), (0, 1), 1, colors.white),  # Subrayar solo la primera celda de la segunda fila (parte inferior)
-        ('LINEBELOW', (1, 1), (1, 1), 1, colors.white),  # Subrayar solo la segunda celda de la segunda fila (parte inferior)
-        ('LINEBELOW', (0, 5), (0, 5), 1, colors.black),  # Subrayar solo la primera celda de la cuarta fila (parte inferior)
-        ('LINEBELOW', (2, 5), (2, 5), 1, colors.black),  # Subrayar solo la segunda celda de la cuarta fila (parte inferior) 
-         
-        ('SPAN', (0, 0), (2, 0)),
-        ('SPAN', (1, 3), (3, 3)),
-        ('SPAN', (1, 4), (3, 4)),
-        ('SPAN', (0, 0), (-1, 0)),
-        ('SPAN', (0, 1), (-1, 1)),        
-        ('SPAN', (0, 2), (-1, 2)),
-        ('SPAN', (1, 5), (1, 5)), 
-        ('SPAN', (1, 6), (3, 6)),        
-        ('SPAN', (1, 7), (3, 7)),    
-        ('SPAN', (1, 8), (3, 8)),
-        ('SPAN', (1, 9), (3, 9)),
-        ('SPAN', (1, 10), (3, 10)),
-        ('SPAN', (1, 11), (3, 11)),
-        ('SPAN', (0, 15), (1, 15)),
-        ('SPAN', (2, 15), (3, 15)),
-        ('SPAN', (0, 16), (1, 16)),
-        ('SPAN', (2, 16), (3, 16)),
-        ('SPAN', (0, 17), (1, 17)),
-        ('SPAN', (2, 17), (3, 17)),
-        ('SPAN', (0, 18), (1, 18)),
-        ('SPAN', (2, 18), (3, 18)),
-        ('SPAN', (0, 19), (3, 19)),
-        ('SPAN', (0, 20), (3, 20)),
-        ('SPAN', (0, 21), (3, 21)),
-        ('SPAN', (0, 22), (3, 22)),
-        ('SPAN', (0, 23), (3, 23)),     
+    # Encabezado con logo y títulos
+    header_data = [
+        [Image(imagen_path, width=3*inch, height=2*inch, kind='proportional')],
+        [Paragraph("FICHA TÉCNICA DE VALIDACIÓN", title_style)],
+        [Paragraph("CONTRATOS DE PRESTACIÓN DE SERVICIOS PROFESIONALES SUJETOS AL PAGO DE HONORARIOS<br/>BAJO EL RÉGIMEN FISCAL DE INGRESOS ASIMILADOS A SALARIOS 1er SEMESTRE 2025", subtitle_style)],
+    ]
+    
+    header_table = Table(header_data)
+    header_table.setStyle([
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('ALIGN', (2, 0), (2, 0), 'CENTER'),
     ])
     
-    
+    content.append(header_table)
+    content.append(Spacer(1, 20))
+    #imprimir contrato
+    # Imprimir todos los campos del contrato dinámicamente
+    print("=== DATOS DEL CONTRATO OPERATIVO ===")
+    for field in contrato._meta.get_fields():
+        field_name = field.name
+        try:
+            field_value = getattr(contrato, field_name)
+            print(f"{field_name}: {field_value}")
+        except AttributeError:
+            print(f"{field_name}: [Campo no accesible]")
+    # Fin imprimir contrato
 
-    buffer = BytesIO()
-    top_margin = 70  # Ajustar según tus preferencias
-    bottom_margin = 70  # Ajustar según tus preferencias
-    doc = SimpleDocTemplate(buffer, pagesize=letter, rightMargin=40, leftMargin=40, topMargin=top_margin, bottomMargin=bottom_margin)
+    # Sección de DEPENDENCIA y CONTRATO No.
+    no_contrato = contrato.noContrato if contrato.noContrato else "\u00A0"
+    form_data_dependencia_contrato = [
+        # DEPENDENCIA y CONTRATO No.
+        [Paragraph("DEPENDENCIA:", field_label_style), Paragraph(contrato.nombreSecretaria or "", field_value_style), Paragraph("CONTRATO No.", field_label_style), Paragraph(no_contrato, field_value_style)]
+    ]
+    form_table_dependencia_contrato = Table(form_data_dependencia_contrato, colWidths=[1.8*inch, 2.8*inch, 1.2*inch, 1.2*inch])
+    form_table_style_dependencia_contrato = [
+        # Padding en todos los lados (10 puntos cada uno)
+        ('LEFTPADDING', (0, 0), (-1, -1), 10),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 10),
+        ('TOPPADDING', (0, 0), (-1, -1), 10),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 10),
 
-    # Definir un marco que cubra toda la página
-    page_width, page_height = letter
-    frame = Frame(0, 0, page_width, page_height, id='normal', leftPadding=72, rightPadding=72,
-                  topPadding=top_margin, bottomPadding=bottom_margin)
+        # Borde de todos los lados
+        ('BOX', (0, 0), (-1, -1), 1, colors.black),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
 
-    # Crear el PageTemplate con el marco definido
-    page_template = PageTemplate(id='main', frames=[frame], onPage=header_footer)
-
-    # Agregar el PageTemplate al SimpleDocTemplate
-    doc.addPageTemplates([page_template])
-
-    #styles = getSampleStyleSheet()
-    styles.add(ParagraphStyle(name='Justify', alignment=TA_JUSTIFY))
-    
-    # Creamos un estilo personalizado para el párrafo alineado a la derecha
-    right_aligned_style = ParagraphStyle('RightAligned', parent=styles['Normal'], alignment=2)
-    center_aligned_style = ParagraphStyle('RightAligned', parent=styles['Normal'], alignment=TA_CENTER)
-    left_aligned_style = ParagraphStyle('RightAligned', parent=styles['Normal'], alignment=TA_LEFT)
-    justify_aligned_style = ParagraphStyle('RightAligned', parent=styles['Normal'], alignment=4)
- 
-    
-    # Definir un marco que cubra toda la página
-    leftMargin, bottomMargin, width, height = 72, 18, 468, 756
-    frame = Frame(leftMargin, bottomMargin, width, height, id='normal')
-
-   
-    content.append(table)
-    #content.append(table2)
-    page_template = PageTemplate(id='main', frames=[frame], onPage=header_footer)  #agregue
-    #content = [formatted_paragraphs]  # Agregar formatted_parrafo a la lista content
-    doc.build(content, canvasmaker=PageNumCanvas)
-    #doc.build(canvasmaker=PageNumCanvas)
         
-    # Obtener el contenido del buffer y crear una respuesta HTTP con el PDF generado
+    ]
+    form_table_dependencia_contrato.setStyle(form_table_style_dependencia_contrato)
+    content.append(form_table_dependencia_contrato)
+    content.append(Spacer(1, 20))
+
+    # Sección de campos del formulario pt1
+    # Crear campos del formulario
+    form_data = [
+        # NOMBRE
+        [Paragraph("NOMBRE:", field_label_style), Paragraph(contrato.nombrePdS or "\u00A0", field_value_style)],
+        
+        # # SERVICIO REQUERIDO
+        [Paragraph("SERVICIO REQUERIDO:", field_label_style), Paragraph(contrato.funcionesProf or "\u00A0", field_value_style)],
+
+        # # ÁREA EN LA QUE SE REQUIEREN LOS SERVICIOS
+        [Paragraph("ÁREA EN LA QUE SE REQUIEREN LOS SERVICIOS:", field_label_style), Paragraph(contrato.puestoSolicitante or "\u00A0", field_value_style)],
+
+        # DOMICILIO
+        [Paragraph("DOMICILIO:", field_label_style), Paragraph(contrato.domicilioSecretaria or "\u00A0", field_value_style)],
+
+        # # TITULAR DEL ÁREA
+        [Paragraph("TITULAR DEL ÁREA:", field_label_style), Paragraph(contrato.nombreSolicitante or "\u00A0", field_value_style)],
+
+        # # CARGO DEL TITULAR DE ÁREA
+        [Paragraph("CARGO DEL TITULAR DE ÁREA:", field_label_style), Paragraph(contrato.puestoSolicitante or "\u00A0", field_value_style)],
+        
+        # # PERCEPCIÓN MENSUAL BRUTA
+        # [Paragraph("PERCEPCIÓN MENSUAL BRUTA:", field_label_style), "", "", ""],
+        # [Paragraph(f"${contrato.impMensualBruto:,.2f} ({contrato.montoLetra})" if contrato.impMensualBruto and contrato.montoLetra else "", field_value_style), 
+        #  "", "", ""],
+        
+        # # AJUSTE DE SUELDO
+        # [Paragraph("AJUSTE DE SUELDO:", field_label_style), "", "", ""],
+        # [Paragraph(contrato.sueldoAnterior or "N/A", field_value_style), "", "", ""],
+    ]
+    
+    # Crear tabla de campos
+    form_table = Table(form_data, colWidths=[1.8*inch, 5.2*inch])
+    
+    form_table_style = [
+        # Padding en todos los lados (10 puntos cada uno)
+        ('LEFTPADDING', (0, 0), (-1, -1), 10),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 10),
+        ('TOPPADDING', (0, 0), (-1, -1), 10),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 10),
+        # Configuración del borde
+        # ('BOX', (0, 0), (-1, -1), 1, colors.black),
+        ('LINEABOVE', (0, 0), (-1, 0), 1, colors.black),  # Línea superior
+        # ('LINEBELOW', (0, -1), (-1, -1), 1, colors.black),  # Línea inferior
+        #Líneas internas laterales
+        ('LINEBEFORE', (0, 0), (0, -1), 1, colors.black),  # Línea izquierda
+        ('LINEAFTER', (-1, 0), (-1, -1), 1, colors.black),  # Línea derecha
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+        
+        # # Spans para campos que ocupan toda la fila (ahora para las variables de texto)
+        ('SPAN', (0, 0), (0, 0)),   # NOMBRE |  valor
+    ]
+    
+    form_table.setStyle(form_table_style)
+    content.append(form_table)
+
+    # Seccion de NUEVA CONTRATACIÓN y RENOVACIÓN
+    # Obtener datos del contrato
+    nuevo_checked = "X" if contrato.tipoContrato and "nuevo" in contrato.tipoContrato.lower() else "\u00A0\u00A0"
+    renovacion_checked = "X" if contrato.tipoContrato and "renovación" in contrato.tipoContrato.lower() else "\u00A0\u00A0"
+    form_data_renovacion_contratacion = [
+        [Paragraph(f"NUEVA CONTRATACIÓN: <font name='Helvetica' size='12'>[{nuevo_checked}]</font>", field_label_style_center), Paragraph(f"RENOVACIÓN: <font name='Helvetica' size='12'>[{renovacion_checked}]</font>", field_label_style_center)]
+    ]
+    form_table_renovacion_contratacion = Table(form_data_renovacion_contratacion, colWidths=[3.5*inch, 3.5*inch])
+    form_table_style_renovacion_contratacion = [
+        # Padding en todos los lados (10 puntos cada uno)
+        ('LEFTPADDING', (0, 0), (-1, -1), 10),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 10),
+        # ('TOPPADDING', (0, 0), (-1, -1), 10),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 10),
+        # Configuración del borde (solo a los lados)
+        ('LINEBEFORE', (0, 0), (0, -1), 1, colors.black), # Línea izquierda
+        ('LINEAFTER', (1, 0), (1, -1), 1, colors.black), # Línea derecha
+        # Configuración de alineación vertical centrada y horizontal centrada
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+    ]
+    form_table_renovacion_contratacion.setStyle(form_table_style_renovacion_contratacion)
+    content.append(form_table_renovacion_contratacion)
+
+    # Seccion de FECHA INICIAL y FECHA DE TERMINACIÓN
+    meses = {
+        1: "enero",
+        2: "febrero",
+        3: "marzo",
+        4: "abril",
+        5: "mayo",
+        6: "junio",
+        7: "julio",
+        8: "agosto",
+        9: "septiembre",
+        10: "octubre",
+        11: "noviembre",
+        12: "diciembre",
+    }
+    anio_inicio = contrato.fechaInicioContrato.split("-")[0] if contrato.fechaInicioContrato else "\u00A0"
+    mes_inicio = meses[int(contrato.fechaInicioContrato.split("-")[1])] if contrato.fechaInicioContrato else "\u00A0"
+    dia_inicio = contrato.fechaInicioContrato.split("-")[2] if contrato.fechaInicioContrato else "\u00A0"
+    anio_fin = contrato.fechaFinContrato.split("-")[0] if contrato.fechaFinContrato else "\u00A0"
+    mes_fin = meses[int(contrato.fechaFinContrato.split("-")[1])] if contrato.fechaFinContrato else "\u00A0"
+    dia_fin = contrato.fechaFinContrato.split("-")[2] if contrato.fechaFinContrato else "\u00A0"
+    # Formatear fechas como "DD/MMMM/AAAA"
+    fecha_formateada_inicio = dia_inicio + "/" + mes_inicio + "/" + anio_inicio if dia_inicio and mes_inicio and anio_inicio else "\u00A0"
+    fecha_formateada_fin = dia_fin + "/" + mes_fin + "/" + anio_fin if dia_fin and mes_fin and anio_fin else "\u00A0"
+    form_data_fi_ft = [
+        # FECHA INICIAL y FECHA DE TERMINACIÓN
+        [Paragraph("FECHA INICIAL:", field_label_style_center), Paragraph(fecha_formateada_inicio, field_value_style_center), Paragraph("FECHA DE TERMINACIÓN:", field_label_style_center), Paragraph(fecha_formateada_fin, field_value_style_center)]
+    ]
+    form_table_fi_ft = Table(form_data_fi_ft, colWidths=[1.75*inch, 1.75*inch, 1.75*inch, 1.75*inch])
+    form_table_style_fi_ft = [
+        # Padding solo en los lados (10 puntos cada uno)
+        ('LEFTPADDING', (0, 0), (-1, -1), 10),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 10),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 10),
+        # Configuración del borde (solo a los lados)
+        ('LINEBEFORE', (0, 0), (0, -1), 1, colors.black), # Línea izquierda
+        ('LINEAFTER', (-1, 0), (-1, -1), 1, colors.black), # Línea derecha
+        # Configuración de alineación vertical centrada y horizontal centrada
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+    ]
+    form_table_fi_ft.setStyle(form_table_style_fi_ft)
+    content.append(form_table_fi_ft)
+
+    # Sección de MONTO TOTAL DEL CONTRATO y Ajuste de sueldo
+    monto_total_contrato = f"${contrato.impMensualBruto:,.2f} ({contrato.montoLetra.lower()})" if contrato.impMensualBruto and contrato.montoLetra else "\u00A0"
+    monto_totalAnterior = f"${contrato.sueldoAnterior:,.2f} ({contrato.montoLetraAnterior.lower()})" if contrato.sueldoAnterior and contrato.montoLetraAnterior else "\u00A0"
+    form_data_monto_total = [
+        [Paragraph("MONTO TOTAL DEL CONTRATO:", field_label_style), Paragraph(monto_total_contrato, field_value_style_center)],
+        [Paragraph("AJUSTE DE SUELDO:", field_label_style), Paragraph(monto_totalAnterior, field_value_style_center)]
+    ]
+    form_table_monto_total = Table(form_data_monto_total, colWidths=[1.8*inch, 5.2*inch])
+    form_table_style_monto_total = [
+        # Padding en todos los lados (10 puntos cada uno)
+        ('LEFTPADDING', (0, 0), (-1, -1), 10),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 10),
+        # ('TOPPADDING', (0, 0), (-1, -1), 10),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 10),
+        # Configuración del borde (solo a los lados)
+        ('LINEBEFORE', (0, 0), (0, -1), 1, colors.black), # Línea izquierda
+        ('LINEAFTER', (1, 0), (1, -1), 1, colors.black), # Línea derecha
+        # Configuración de alineación vertical centrada y horizontal centrada
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+    ]
+    form_table_monto_total.setStyle(form_table_style_monto_total)
+    content.append(form_table_monto_total)
+
+    # Espaciador antes de la sección de firmas
+    # content.append(Spacer(1, 30))
+    
+    # Sección de FIRMAS
+    signature_data = [
+        ["SOLICITA", "", ""],
+        ["", "", ""],  # Fila para la línea
+        [f"{contrato.nombreSolicitante.title() if contrato.nombreSolicitante else 'NOMBRE DEL SOLICITANTE'}", "", ""],
+        [f"{contrato.puestoSolicitante.title() if contrato.puestoSolicitante else 'PUESTO SOLICITANTE'}", "", ""],
+        ["", "", ""]
+    ]
+
+    # Mantener el ancho total de 7*inch pero dividido en 3 columnas
+    signature_table = Table(signature_data, colWidths=[1.5*inch, 4*inch, 1.5*inch], rowHeights=[1*inch, 0.1*inch, 0.3*inch, 0.1*inch, 0.3*inch])
+
+    signature_table.setStyle([
+        ('LEFTPADDING', (0, 0), (-1, -1), 10),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 10),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 10),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('LINEBEFORE', (0, 0), (0, -1), 1, colors.black),
+        ('LINEAFTER', (-1, 0), (-1, -1), 1, colors.black),
+        ('LINEBELOW', (0, -1), (-1, -1), 1, colors.black),
+        # Línea solo en la columna central (índice 1) para la firma
+        ('LINEBELOW', (1, 1), (1, 1), 1, colors.black),
+        # Spans para que el contenido ocupe toda la fila visualmente
+        ('SPAN', (0, 0), (2, 0)),  # SOLICITA ocupa las 3 columnas
+        ('SPAN', (0, 2), (2, 2)),  # Nombre ocupa las 3 columnas
+        ('SPAN', (0, 3), (2, 3)),  # Puesto ocupa las 3 columnas
+        ('SPAN', (0, 4), (2, 4)),  # Última fila vacía ocupa las 3 columnas
+    ])
+    
+    content.append(signature_table)
+    
+    # Construir el PDF
+    doc.build(content)
+    
+    # Obtener el contenido del buffer y crear respuesta HTTP
     pdf = buffer.getvalue()
     buffer.close()
-
-    response = HttpResponse(content_type='application/pdf')
     
-    response['Content-Disposition'] = f'attachment; filename="contrato_{contrato_id}.pdf"'
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="ficha_tecnica_{contrato_id}.pdf"'
     response.write(pdf)
-
+    
     return response
 
 def header_footer(canvas, doc):
